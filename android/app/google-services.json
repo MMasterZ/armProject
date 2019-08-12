@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "152112314522",
+    "firebase_url": "https://armproject-5b28c.firebaseio.com",
+    "project_id": "armproject-5b28c",
+    "storage_bucket": "armproject-5b28c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152112314522:android:54dcdb039c2639c6",
+        "android_client_info": {
+          "package_name": "com.winners.arm_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152112314522-gii3kmn7a7o0pao5dnqc9j3evea9qi2d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDxeVL8ENn9qHrxwPVQy7wdr_kYKf_l5c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "152112314522-gii3kmn7a7o0pao5dnqc9j3evea9qi2d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

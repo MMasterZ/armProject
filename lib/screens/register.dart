@@ -1,5 +1,6 @@
+import 'package:arm_project/screens/my_service.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -10,7 +11,8 @@ class _RegisterState extends State<Register> {
   // Explicit
   Color textColor = Colors.redAccent.shade700;
   final formKey = GlobalKey<FormState>();
-  String name , email , password; 
+  String name, email, password;
+  FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   // Methods
   Widget registerButton() {
@@ -22,9 +24,43 @@ class _RegisterState extends State<Register> {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
           print('name = $name , email = $email , password = $password');
+          registerThread();
         }
       },
     );
+  }
+
+  Future<void> registerThread() async {
+    
+    await firebaseAuth
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: password,
+    )
+        .then(
+      (response) {
+        print('welcome to firebase');
+        setupDisplayName();
+
+      },
+    ).catchError(
+      (response) {
+        print('response = ${response.toString()}');
+      },
+    );
+  }
+
+  Future<void> setupDisplayName()async {
+
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+    UserUpdateInfo userUpdateInfo = UserUpdateInfo();
+    userUpdateInfo.displayName = name;
+    firebaseUser.updateProfile(userUpdateInfo);
+
+    // Create Thread Without Arrow Back
+    MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (BuildContext context) => MyService());
+    Navigator.of(context).pushAndRemoveUntil(materialPageRoute, (Route<dynamic> route) => false);
+
   }
 
   Widget nameText() {
@@ -60,7 +96,7 @@ class _RegisterState extends State<Register> {
           return '* กรุณากรอกข้อมูล';
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         name = value;
       },
     );
@@ -99,7 +135,7 @@ class _RegisterState extends State<Register> {
           return '* กรุณากรอกข้อมูลอีเมลให้ครบถ้วน';
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         email = value;
       },
     );
@@ -137,7 +173,7 @@ class _RegisterState extends State<Register> {
           return "* รหัสผ่านต้องมากว่า 6 ตัวอักษร";
         }
       },
-      onSaved: (String value){
+      onSaved: (String value) {
         password = value;
       },
     );

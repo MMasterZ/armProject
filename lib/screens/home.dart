@@ -1,4 +1,6 @@
+import 'package:arm_project/screens/my_service.dart';
 import 'package:arm_project/screens/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // StatefulWidget เป็นการทายเท Data
@@ -13,6 +15,27 @@ class _HomeState extends State<Home> {
   Color myColor = Color.fromARGB(0xFF, 0x00, 0x3c, 0x8f);
 
   // Method
+  @override
+  void initState() {
+    super.initState();
+    checkStatus();
+  }
+
+  Future<void> checkStatus() async {
+    FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    FirebaseUser firebaseUser = await firebaseAuth.currentUser();
+
+    if (firebaseUser != null) {
+      MaterialPageRoute materialPageRoute = MaterialPageRoute(
+        builder: (BuildContext context) => MyService(),
+      );
+      Navigator.of(context).pushAndRemoveUntil(
+        materialPageRoute,
+        (Route<dynamic> route) => false,
+      );
+    }
+  }
+
   Widget showLogo() {
     return Container(
       child: Image.asset('images/Video-logo.png'),
