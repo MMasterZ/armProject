@@ -1,5 +1,5 @@
+import 'package:arm_project/screens/register.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 // StatefulWidget เป็นการทายเท Data
 class Home extends StatefulWidget {
@@ -73,7 +73,14 @@ class _HomeState extends State<Home> {
           'Sign Up',
           style: TextStyle(color: myColor),
         ),
-        onPressed: () {},
+        onPressed: () {
+          //Create Route With Arrow Back
+          MaterialPageRoute materialPageRoute = MaterialPageRoute(
+            builder: (BuildContext context) => Register(),
+          );
+
+          Navigator.of(context).push(materialPageRoute);
+        },
       ),
     );
   }
