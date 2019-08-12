@@ -9,12 +9,21 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   // Explicit
   Color textColor = Colors.redAccent.shade700;
+  final formKey = GlobalKey<FormState>();
+  String name , email , password; 
 
   // Methods
   Widget registerButton() {
     return IconButton(
       icon: Icon(Icons.cloud_upload),
-      onPressed: () {},
+      onPressed: () {
+        print('Register');
+
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          print('name = $name , email = $email , password = $password');
+        }
+      },
     );
   }
 
@@ -35,9 +44,9 @@ class _RegisterState extends State<Register> {
         labelStyle: TextStyle(
           color: Colors.blue,
         ),
-        helperText: "* Type Name in English",
+        helperText: "Type Name in English",
         helperStyle: TextStyle(
-          color: Colors.red,
+          color: Colors.blue,
         ),
         hintText: "FirstName",
         hintStyle: TextStyle(
@@ -45,6 +54,15 @@ class _RegisterState extends State<Register> {
           color: Colors.grey[400],
         ),
       ),
+      validator: (String value) {
+        value = value.trim();
+        if (value.isEmpty) {
+          return '* กรุณากรอกข้อมูล';
+        }
+      },
+      onSaved: (String value){
+        name = value;
+      },
     );
   }
 
@@ -54,21 +72,21 @@ class _RegisterState extends State<Register> {
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.green,
+            color: Colors.blue,
           ),
         ),
         icon: Icon(
           Icons.email,
           size: 36.0,
-          color: Colors.green,
+          color: Colors.blue,
         ),
         labelText: "Email :",
         labelStyle: TextStyle(
-          color: Colors.green,
+          color: Colors.blue,
         ),
-        helperText: "* Type Email Format",
+        helperText: "Type Email Format",
         helperStyle: TextStyle(
-          color: Colors.red,
+          color: Colors.blue,
         ),
         hintText: "you@abc.com",
         hintStyle: TextStyle(
@@ -76,6 +94,14 @@ class _RegisterState extends State<Register> {
           color: Colors.grey[400],
         ),
       ),
+      validator: (String value) {
+        if (!((value.contains('@')) && (value.contains('.')))) {
+          return '* กรุณากรอกข้อมูลอีเมลให้ครบถ้วน';
+        }
+      },
+      onSaved: (String value){
+        email = value;
+      },
     );
   }
 
@@ -84,21 +110,21 @@ class _RegisterState extends State<Register> {
       decoration: InputDecoration(
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Colors.orange,
+            color: Colors.blue,
           ),
         ),
         icon: Icon(
           Icons.lock,
           size: 36.0,
-          color: Colors.orange,
+          color: Colors.blue,
         ),
         labelText: "Email :",
         labelStyle: TextStyle(
-          color: Colors.orange,
+          color: Colors.blue,
         ),
-        helperText: "* Type Your Password",
+        helperText: "Type Your Password",
         helperStyle: TextStyle(
-          color: Colors.red,
+          color: Colors.blue,
         ),
         hintText: "@gmail.com",
         hintStyle: TextStyle(
@@ -106,6 +132,14 @@ class _RegisterState extends State<Register> {
           color: Colors.grey[400],
         ),
       ),
+      validator: (String value) {
+        if (value.length < 6) {
+          return "* รหัสผ่านต้องมากว่า 6 ตัวอักษร";
+        }
+      },
+      onSaved: (String value){
+        password = value;
+      },
     );
   }
 
@@ -115,26 +149,22 @@ class _RegisterState extends State<Register> {
       appBar: AppBar(
         actions: <Widget>[
           registerButton(),
-          registerButton(),
         ],
         backgroundColor: textColor,
         title: Text('Register'),
       ),
       body: Center(
         child: Container(
-          decoration: BoxDecoration(
-            gradient: RadialGradient(
-                colors: [Colors.white, Colors.red.shade100],
-                radius: 2,
-                center: Alignment.topCenter),
-          ),
-          child: ListView(
-            padding: EdgeInsets.only(left: 15.0, top: 15.0, right: 15.0),
-            children: <Widget>[
-              nameText(),
-              emailText(),
-              passwordText(),
-            ],
+          child: Form(
+            key: formKey,
+            child: ListView(
+              padding: EdgeInsets.only(left: 15.0, top: 15.0, right: 15.0),
+              children: <Widget>[
+                nameText(),
+                emailText(),
+                passwordText(),
+              ],
+            ),
           ),
         ),
       ),
