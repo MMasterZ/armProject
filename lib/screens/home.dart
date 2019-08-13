@@ -1,3 +1,4 @@
+import 'package:arm_project/screens/authen.dart';
 import 'package:arm_project/screens/my_service.dart';
 import 'package:arm_project/screens/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -80,7 +81,11 @@ class _HomeState extends State<Home> {
           'Sing In',
           style: TextStyle(color: Colors.white),
         ),
-        onPressed: () {},
+        onPressed: () {
+          MaterialPageRoute materialPageRoute =
+              MaterialPageRoute(builder: (BuildContext context) => Authen());
+          Navigator.of(context).push(materialPageRoute);
+        },
       ),
     );
   }
