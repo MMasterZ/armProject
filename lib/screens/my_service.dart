@@ -1,4 +1,6 @@
 import 'package:arm_project/screens/home.dart';
+import 'package:arm_project/screens/information.dart';
+import 'package:arm_project/screens/video_listview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +13,8 @@ class _MyServiceState extends State<MyService> {
   // Explicit
   Color textColor = Color.fromARGB(0xFF, 0x00, 0x3c, 0x8f);
   String nameLogin = '';
+  Widget myWidget = VideoListView();
+
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   // Methods
@@ -75,6 +79,10 @@ class _MyServiceState extends State<MyService> {
       child: ListView(
         children: <Widget>[
           myDrawerHead(),
+          videoListMenu(),
+          myDivider(),
+          informationMenu(),
+          myDivider(),
           signOutMenu(),
         ],
       ),
@@ -87,7 +95,11 @@ class _MyServiceState extends State<MyService> {
         color: Colors.red,
       ),
       child: Column(
-        children: <Widget>[showLogo(), showName(), showLogin()],
+        children: <Widget>[
+          showLogo(),
+          showName(),
+          showLogin(),
+        ],
       ),
     );
   }
@@ -106,13 +118,49 @@ class _MyServiceState extends State<MyService> {
     );
   }
 
+  Widget videoListMenu() {
+    return ListTile(
+      leading: Icon(
+        Icons.video_call,
+        size: 36.0,
+      ),
+      title: Text('Video List View'),
+      onTap: () {
+        setState(() {
+          myWidget = VideoListView();
+          Navigator.of(context).pop();
+        });
+      },
+    );
+  }
+
+  Widget informationMenu() {
+    return ListTile(
+      leading: Icon(
+        Icons.info,
+        size: 36.0,
+      ),
+      title: Text('Infomation'),
+      onTap: () {
+        setState(() {
+          myWidget = Information();
+          Navigator.of(context).pop();
+        });
+      },
+    );
+  }
+
+  Widget myDivider() {
+    return Divider();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Service'),
       ),
-      body: Text('My Body'),
+      body: myWidget,
       drawer: myDrawerMenu(),
     );
   }
